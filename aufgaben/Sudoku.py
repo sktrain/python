@@ -22,16 +22,3 @@ array = [
     [ 7, 8, 8 ]
 ]
 
-# Lösung
-
-numberExisted = [False for x in range(9)]      # bool-Liste mit False initialisiert
-
-for row in range(3):
-    for col in range(3):
-       element = array[row][col]
-       if element >= 1 and element <= 9:
-            numberExisted[element - 1] = True
-
-for i in range(9):
-    if not(numberExisted[i]):
-        print("missing:", i+1)
