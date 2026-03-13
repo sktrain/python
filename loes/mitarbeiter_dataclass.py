@@ -1,3 +1,5 @@
+""" Version der Mitarbeiterklasse als dataclass"""
+
 from dataclasses import dataclass
 from enum import Enum
 from datetime import date
@@ -9,9 +11,7 @@ class Geschlecht(Enum):
     W = 2,
     M = 3
 
-@dataclass(
-    repr=False
-)
+@dataclass
 class Mitarbeiter:
     """ Version der Mitarbeiterklasse als Dataclass"""
 
@@ -21,7 +21,7 @@ class Mitarbeiter:
     __gebdatum: date
     __einstdatum: date
     __gehalt: Decimal
-    __geschlecht: Geschlecht = Geschlecht.D
+    __geschlecht: Geschlecht # = Geschlecht.D
 
 
 
@@ -77,23 +77,47 @@ class Mitarbeiter:
 
 ####### Nutzen ##############
 
-m1 = Mitarbeiter(1, "Max", "Muster", date(2000,
-                 1, 1), date(2020, 1, 1), Decimal("5000"))
+# m1 = Mitarbeiter(1, "Max", "Muster", date(2000,
+#                  1, 1), date(2020, 1, 1), Decimal("5000"), Geschlecht.D)
+#
+# print(m1.get_persnr())
+# print(m1.get_vorname())
+# #m1.set_nachname("Karrer")
+# print(m1.get_nachname())
+# print(m1)
+# print(m1.__dict__)
+#
+# m2 = m1
+# print (m1 == m2)
+# print (m1 is m2)
+#
+# m2 = Mitarbeiter(1, "Max", "Muster", date(2000,
+#                  1, 1), date(2020, 1, 1), Decimal("5000"))
+#
+# print (m1 == m2)
+# print (m1 is m2)
+# print(m1.__repr__())
 
-print(m1.get_persnr())
-print(m1.get_vorname())
-#m1.set_nachname("Karrer")
-print(m1.get_nachname())
-print(m1)
-print(m1.__dict__)
+@dataclass
+class Arbeiter(Mitarbeiter):
+    __stdlohn: Decimal
+    __stdzahl: Decimal
 
-m2 = m1
-print (m1 == m2)
-print (m1 is m2)
+    def set_stdlohn(self, stdlohn: Decimal) -> None:
+        self__stdlohn = stdlohn
 
-m2 = Mitarbeiter(1, "Max", "Muster", date(2000,
-                 1, 1), date(2020, 1, 1), Decimal("5000"))
+    def set_stdzahl(self, stdzahl: Decimal ) -> None:
+        self.__stdzahl = stdzahl
 
-print (m1 == m2)
-print (m1 is m2)
-print(m1.__repr__())
+    def get_gehalt(self) -> Decimal:
+        return self.__stdzahl * self.__stdlohn
+
+
+arbeiter = Arbeiter(10, "Max", "Maulwurf", date(2000,
+                 1, 1), date(2020, 1, 1), Decimal(100) * Decimal(20),
+                    Geschlecht.M, Decimal(20), Decimal(100))
+
+print(arbeiter.get_gehalt())
+
+arbeiter.set_gehalt(Decimal(50000))
+print(arbeiter.get_gehalt())
